@@ -32,7 +32,24 @@ class Barang
         $harga_barang = $data['harga_barang'];
         $query = "INSERT INTO tb_barang (nama_barang, harga_barang) VALUES ('$nama_barang', '$harga_barang')";
         $result = mysqli_query($this->conn, $query);
+
+
+
+
+
         if ($result) {
+
+            $query = "SELECT token FROM tb_notifikasi";
+            $result = mysqli_query($this->conn, $query);
+
+            $tokens = [];
+            while ($row = mysqli_fetch_assoc($result)) {
+                $tokens[] = $row['token'];
+            }
+
+            $this->sendNotif($tokens);
+
+
             return true;
         } else {
             return false;
@@ -61,5 +78,36 @@ class Barang
         } else {
             return false;
         }
+    }
+
+    private function sendNotif($tokens)
+    {
+
+        $serverKey = 'AAAAiyFEpYA:APA91bGf75IoZA9zfmixAziXF6tKl2jfspN3l_d6HZ4GMGSGR0Wb9tm09dUuxTiRJqV2J5hM-VnaUBCnBp3fblSHrdlxic_03XQESrrJlDAoRkKJ9DuvGnA9UYc29Y7n4ujtvwOVPHCO';
+
+
+        $header = [
+            'Authorization: Key=' . $serverKey,
+            'Content-Type: Application/json'
+        ];
+
+        $msg = [
+            'registration_ids' => $tokens, // Mengirim ke beberapa token
+            'notification' => [
+                'title' => 'Your Title',
+                'body' => 'Your Message',
+                'icon' => 'your-icon-url'
+            ]
+        ];
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($msg));
+        $result = curl_exec($ch);
+        curl_close($ch);
     }
 }
