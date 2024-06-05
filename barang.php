@@ -94,11 +94,12 @@ class Barang
         $msg = [
             'registration_ids' => $tokens, // Mengirim ke beberapa token
             'notification' => [
-                'title' => 'Your Title',
-                'body' => 'Your Message',
+                'title' => 'ADA BARANG BARU',
+                'body' => 'barang baru di tambahkan !',
                 'icon' => 'your-icon-url'
             ]
         ];
+
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
