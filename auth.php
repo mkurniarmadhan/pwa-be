@@ -22,7 +22,6 @@ class Auth
         $row         = mysqli_fetch_array($result);
 
         if ($num_row >= 1) {
-
             return $row['id'];
             return true;
         } else {
@@ -51,7 +50,7 @@ class Auth
     {
         $token = $data['token'];
 
-        $query = "INSERT INTO tb_notifikasi (token) VALUES ('$token')";
+        $query = "INSERT INTO tb_notifikasi (token) VALUES ('$token') ON DUPLICATE KEY UPDATE token=token";
         $result = mysqli_query($this->conn, $query);
         if ($result) {
             return true;
