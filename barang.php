@@ -96,7 +96,7 @@ class Barang
             'notification' => [
                 'title' => 'ADA BARANG BARU',
                 'body' => 'barang baru di tambahkan !',
-                'icon' => 'your-icon-url'
+                'icon' => '/assets/icons/android/android-launchericon-48-48.png'
             ]
         ];
 
