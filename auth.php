@@ -50,7 +50,7 @@ class Auth
     {
         $token = $data['token'];
 
-        $query = "INSERT INTO tb_notifikasi (token) VALUES ('$token') ON DUPLICATE KEY UPDATE token=token";
+        $query = "INSERT INTO tb_notifikasi (token) VALUES ('$token')";
         $result = mysqli_query($this->conn, $query);
         if ($result) {
             return true;
